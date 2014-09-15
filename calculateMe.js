@@ -505,3 +505,45 @@ Math.Ball.prototype.getRadius = function () {
 Math.Ball.prototype.setRadius = function (radius) {
     this.radius = radius;
 }
+
+
+/* RECTANGLE */
+Math.Rectangle = function (width, height) {
+    this.width = width;
+    this.height = height;
+}
+
+Math.Rectangle.prototype.getHeight = function () {
+    return this.height;
+}
+Math.Rectangle.prototype.setHeight = function (height) {
+    this.height = height;
+}
+Math.Rectangle.prototype.getWidth = function () {
+    return this.width;
+}
+Math.Rectangle.prototype.setWidth = function (width) {
+    this.width = width;
+}
+Math.Rectangle.prototype.getPerimeter = function () {
+    return 2 * (this.width + this.height);
+}
+Math.Rectangle.prototype.isSquare = function () {
+    return (this.width == this.height);
+}
+Math.Rectangle.prototype.getArea = functon() {
+    return this.width * this.height;
+}
+Math.Rectangle.prototype.getDiagonal = function () {
+    return Math.sqrt((this.width * this.width) + (this.height * this.height));
+}
+Math.Rectangle.prototype.setSize(width, height) {
+    this.width = width;
+    this.height = height;
+}
+Math.Rectangle.prototype.getSize = function (delimiter) {
+    return this.width + (delimiter ? delimiter : "x") + this.height;
+}
+Math.Rectangle.prototype.toCuboid = function (height) {
+    //TODO
+}
