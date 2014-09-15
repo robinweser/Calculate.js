@@ -2,7 +2,7 @@
 ----------------------------------- 
     
 **calculateMe.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
-Right now there's a **powerful term-parser** that supports all popular math functions *like sin, cos, tan, log, sqrt or pow*.   
+Right now there's a **powerful term-parser** that supports all popular math functions like *sin, cos, tan, log, sqrt or pow*.   
 
 ## **How to use**
 -----------------------------------
