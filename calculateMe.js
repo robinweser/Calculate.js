@@ -636,6 +636,20 @@ Math.Triangle.prototype.getHeightB = function () {
 Math.Triangle.prototype.getHeightC = function () {
     return Math.sin(this.Alpha()) * this.b;
 }
+Math.Triangle.prototype.getHeights = function () {
+    return {
+        heightA: this.getHeightA(),
+        heightB: this.getHeightB(),
+        heightC: this.getHeightC()
+    }
+}
+Math.Triangle.prototype.getAngles = function () {
+    return {
+        alpha: this.getAlpha(),
+        beta: this.getBeta(),
+        gamma: this.getGamma()
+    }
+}
 Math.Triangle.prototype.getGamma = function () {
     return Math.acos((this.c * this.c - this.b * this.b - this.a * this.a) / (-2 * this.a * this.b));
 }
@@ -649,11 +663,14 @@ Math.Triangle.prototype.getArea = function () {
     return ((1 / 2) * this.c) * this.getHeightC();
 }
 Math.Triangle.prototype.isIsosceles = function () {
-    return ((this.a == this.b && this.a != this.c && this.getAlpha() == this.getBeta()) || (this.b == this.c && this.b != this.a && this.getBeta() == this.getGamma()) || (this.c == this.a && this.c != this.b && this.getAlpha() == this.getGamma()));
+    var gamma = this.getGamma();
+    var alpha = this.getAlpha();
+    var beta = this.getBeta();
+    return ((this.a == this.b && this.a != this.c && alpha == beta) || (this.b == this.c && this.b != this.a && beta == gamma) || (this.c == this.a && this.c != this.b && alpha == gamma));
 }
 Math.Triangle.prototype.isEquilateral = function () {
     return (this.a == this.b && this.b == this.c && this.getAlpha() == this.getGamma() && this.getAlpha() == this.getBeta());
 }
 Math.Triangle.prototype.isRightAngled = function () {
-    return (this.getAlpha() == 90 || this.getBeta() == 90 || this.getGamma == 90);
+    return (this.getAlpha() == 90 || this.getBeta() == 90 || this.getGamma() == 90);
 }
