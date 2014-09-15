@@ -1,5 +1,4 @@
-
- /*===========================================================================
+/*===========================================================================
 
    calculateMe.js is kind of an extension to the JavaScript build-in Math-Library.
    Check https://bitbucket.org/Grindelwald/calculateme.js for more information
@@ -37,7 +36,7 @@ function getModeSetting(mode) {
 
 
 /* MATH-EXTENSIONS  */
-/* THERM-PARSER */
+/* TERM-PARSER */
 //Contains all alternative notation possibilities that can also be used to define a term
 Math.alternativeNotation = {
     ":": "/",
@@ -371,10 +370,11 @@ Math.isCorrectBrackets = function (term) {
 };
 
 //Checks if a term uses the correct alphabet
-Math.isCorrectAlphabet = function (term) {
+Math.isCorrectAlphabet = function (term, alphabet) {
+    alphabet = (alphabet ? alphabet : Math.alphabet);
     for (var i = 0; i < Math.alphabet.length; ++i) {
-        while (term.indexOf(Math.alphabet[i]) != -1) {
-            term = term.replace(Math.alphabet[i], "");
+        while (term.indexOf(alphabet[i]) != -1) {
+            term = term.replace(alphabet[i], "");
         }
     }
     if (term.length == 0) {
@@ -402,4 +402,59 @@ Math.calculate = function (term, mode) {
     } else {
         return "Invalid brackets. You might have not closed all the brackets."
     }
+}
+
+/*TERM CLASS*/
+Math.Term = function (term, mode) {
+    this.term = term;
+    this.original = term;
+    this.mode = (mode ? mode : "DEG");
+}
+
+Math.Term.prototype.alphabet = Math.alphabet;
+
+//Corrects and returns the term
+Math.Term.prototype.correctTerm = function () {
+    this.term = Math.correctTerm(this.term);
+    return this.term;
+};
+
+//Calculates the term and returns the result
+Math.Term.prototype.calculate = function () {
+    this.result = Math.calculate(this.term, this.mode);
+    return this.result;
+}
+//Sets the mode, "DEG", "GRA" or "RAD"
+Math.Term.prototype.setMode = function (mode) {
+    this.mode = mode;
+}
+
+//Gets the mode
+Math.Term.prototype.getMode = function () {
+    return this.mode;
+}
+
+//Gets the term
+Math.Term.prototype.getTerm = function () {
+    return this.term;
+}
+
+//Sets the new term
+Math.Term.prototype.setTerm = function (term) {
+    this.term = term;
+}
+
+//Gets the original term (without correction)
+Math.Term.prototype.getOriginal = function () {
+    return this.original;
+}
+
+//Checks if the term uses the correct alphabet
+Math.Term.prototype.isCorrectAlphabet = function () {
+    return Math.isCorrectAlphabet(this.term, this.alphabet);
+}
+
+//Checks if the term has its brackets set correct
+Math.Term.prototype.isCorrectBrackets = function () {
+    return Math.isCorrectBrackets(this.term);
 }
