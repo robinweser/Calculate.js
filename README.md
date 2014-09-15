@@ -7,7 +7,7 @@ Right now there's a **powerful term-parser** that supports all popular math func
 ## **How to use**
 -----------------------------------
 
-Just download **calculateMe.js** and import it within your project.    
+Just download **[calculateMe.js](https://bitbucket.org/Grindelwald/calculateme.js/downloads/calculateMe%5Bversion0.0.1-15.09.14%5D.zip)** and import it within your project.    
 ```
 #!html
 <script type="text/javascript" src="calculateMe.js"></script>
