@@ -531,13 +531,13 @@ Math.Rectangle.prototype.getPerimeter = function () {
 Math.Rectangle.prototype.isSquare = function () {
     return (this.width == this.length);
 }
-Math.Rectangle.prototype.getArea = functon() {
+Math.Rectangle.prototype.getArea = function () {
     return this.width * this.length;
 }
 Math.Rectangle.prototype.getDiagonal = function () {
     return Math.sqrt((this.width * this.width) + (this.length * this.length));
 }
-Math.Rectangle.prototype.setSize(width, length) {
+Math.Rectangle.prototype.setSize = function (width, length) {
     this.width = width;
     this.length = length;
 }
@@ -579,10 +579,10 @@ Math.Cuboid.prototype.getEdgeLength = function () {
 Math.Cuboid.prototype.isHexaedron = function () {
     return (this.width == this.length && this.length == this.height);
 }
-Math.Cuboid.prototype.getSurface = functon() {
+Math.Cuboid.prototype.getSurface = function () {
     return 2 * this.width * this.length + 2 * this.width * this.height + 2 * this.length * this.height;
 }
-Math.Cuboid.prototype.setSize(width, length, height) {
+Math.Cuboid.prototype.setSize = function (width, length, height) {
     this.width = width;
     this.length = length;
     this.height = height;
@@ -634,20 +634,13 @@ Math.Triangle.prototype.getHeightB = function () {
     return Math.sin(this.getGamma()) * this.a;
 }
 Math.Triangle.prototype.getHeightC = function () {
-    return Math.sin(this.Alpha()) * this.b;
+    return Math.sin(this.getAlpha()) * this.b;
 }
 Math.Triangle.prototype.getHeights = function () {
     return {
         heightA: this.getHeightA(),
         heightB: this.getHeightB(),
         heightC: this.getHeightC()
-    }
-}
-Math.Triangle.prototype.getAngles = function () {
-    return {
-        alpha: this.getAlpha(),
-        beta: this.getBeta(),
-        gamma: this.getGamma()
     }
 }
 Math.Triangle.prototype.getGamma = function () {
@@ -658,6 +651,13 @@ Math.Triangle.prototype.getBeta = function () {
 }
 Math.Triangle.prototype.getAlpha = function () {
     return Math.acos((this.a * this.a - this.b * this.b - this.c * this.c) / (-2 * this.b * this.c));
+}
+Math.Triangle.prototype.getAngles = function () {
+    return {
+        alpha: this.getAlpha(),
+        beta: this.getBeta(),
+        gamma: this.getGamma()
+    }
 }
 Math.Triangle.prototype.getArea = function () {
     return ((1 / 2) * this.c) * this.getHeightC();
