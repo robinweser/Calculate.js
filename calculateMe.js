@@ -508,16 +508,16 @@ Math.Ball.prototype.setRadius = function (radius) {
 
 
 /* RECTANGLE */
-Math.Rectangle = function (width, height) {
+Math.Rectangle = function (width, length) {
     this.width = width;
-    this.height = height;
+    this.length = length;
 }
 
-Math.Rectangle.prototype.getHeight = function () {
-    return this.height;
+Math.Rectangle.prototype.getLength = function () {
+    return this.length;
 }
-Math.Rectangle.prototype.setHeight = function (height) {
-    this.height = height;
+Math.Rectangle.prototype.setLength = function (length) {
+    this.length = length;
 }
 Math.Rectangle.prototype.getWidth = function () {
     return this.width;
@@ -526,24 +526,70 @@ Math.Rectangle.prototype.setWidth = function (width) {
     this.width = width;
 }
 Math.Rectangle.prototype.getPerimeter = function () {
-    return 2 * (this.width + this.height);
+    return 2 * (this.width + this.length);
 }
 Math.Rectangle.prototype.isSquare = function () {
-    return (this.width == this.height);
+    return (this.width == this.length);
 }
 Math.Rectangle.prototype.getArea = functon() {
-    return this.width * this.height;
+    return this.width * this.length;
 }
 Math.Rectangle.prototype.getDiagonal = function () {
-    return Math.sqrt((this.width * this.width) + (this.height * this.height));
+    return Math.sqrt((this.width * this.width) + (this.length * this.length));
 }
-Math.Rectangle.prototype.setSize(width, height) {
+Math.Rectangle.prototype.setSize(width, length) {
     this.width = width;
-    this.height = height;
+    this.length = length;
 }
 Math.Rectangle.prototype.getSize = function (delimiter) {
-    return this.width + (delimiter ? delimiter : "x") + this.height;
+    return this.width + (delimiter ? delimiter : "x") + this.length;
 }
 Math.Rectangle.prototype.toCuboid = function (height) {
-    //TODO
+    return new Math.Cuboid(this.width, this.length, height);
+}
+
+/* Cuboid */
+Math.Cuboid = function (width, length, height) {
+    this.width = width;
+    this.length = length;
+    this.height = height;
+}
+Math.Cuboid.prototype.getLength = function () {
+    return this.length;
+}
+Math.Cuboid.prototype.setLength = function (length) {
+    this.length = length;
+}
+Math.Cuboid.prototype.getHeight = function () {
+    return this.height;
+}
+Math.Cuboid.prototype.setHeight = function (height) {
+    this.height = height;
+}
+Math.Cuboid.prototype.getWidth = function () {
+    return this.width;
+}
+Math.Cuboid.prototype.setWidth = function (width) {
+    this.width = width;
+}
+Math.Cuboid.prototype.getEdgeLength = function () {
+    return 4 * (this.width + this.height + this.length);
+}
+Math.Cuboid.prototype.isHexaedron = function () {
+    return (this.width == this.length && this.length == this.height);
+}
+Math.Cuboid.prototype.getSurface = functon() {
+    return 2 * this.width * this.length + 2 * this.width * this.height + 2 * this.length * this.height;
+}
+Math.Cuboid.prototype.setSize(width, length, height) {
+    this.width = width;
+    this.length = length;
+    this.height = height;
+}
+Math.Cuboid.prototype.getSize = function (delimiter) {
+    delimiter = (delimiter ? delimiter : "x");
+    return this.width + delimiter + this.length + delimiter + this.height;
+}
+Math.Cuboid.prototype.getBodyDiagonal = function () {
+    return Math.sqrt(this.width * this.width + this.length * this.length + this.height * this.height);
 }
