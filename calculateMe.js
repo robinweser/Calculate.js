@@ -407,7 +407,6 @@ Math.calculate = function (term, mode) {
 /*TERM CLASS*/
 Math.Term = function (term, mode) {
     this.term = term;
-    this.original = term;
     this.mode = (mode ? mode : "DEG");
 }
 
@@ -416,13 +415,11 @@ Math.Term.prototype.alphabet = Math.alphabet;
 //Corrects and returns the term
 Math.Term.prototype.correctTerm = function () {
     this.term = Math.correctTerm(this.term);
-    return this.term;
 };
 
 //Calculates the term and returns the result
 Math.Term.prototype.calculate = function () {
-    this.result = Math.calculate(this.term, this.mode);
-    return this.result;
+    return Math.calculate(this.term, this.mode);
 }
 //Sets the mode, "DEG", "GRA" or "RAD"
 Math.Term.prototype.setMode = function (mode) {
@@ -444,11 +441,6 @@ Math.Term.prototype.setTerm = function (term) {
     this.term = term;
 }
 
-//Gets the original term (without correction)
-Math.Term.prototype.getOriginal = function () {
-    return this.original;
-}
-
 //Checks if the term uses the correct alphabet
 Math.Term.prototype.isCorrectAlphabet = function () {
     return Math.isCorrectAlphabet(this.term, this.alphabet);
@@ -457,4 +449,39 @@ Math.Term.prototype.isCorrectAlphabet = function () {
 //Checks if the term has its brackets set correct
 Math.Term.prototype.isCorrectBrackets = function () {
     return Math.isCorrectBrackets(this.term);
+}
+
+
+/*CIRCLE*/
+Math.Circle = function (radius) {
+    this.radius = radius;
+}
+
+Math.Circle.prototype.getDiameter = function () {
+    return 2 * this.radius;
+}
+
+Math.Circle.prototype.getCircumfenrence = function () {
+    return 2 * this.radius * Math.PI;
+}
+
+Math.Circle.prototype.getArea = function () {
+    return Math.PI * (this.radius * this.radius);
+}
+
+Math.Circle.prototype.getArcLength = function (angle) {
+    return (angle / 360) * this.getCircumfenrence();
+}
+
+Math.Circle.prototype.getArcArea = function (angle) {
+    return (angle / 360) * this.getArea();
+}
+Math.Circle.prototype.getRadius = function () {
+    return this.radius;
+}
+Math.Circle.prototype.setRadius = function (radius) {
+    this.radius = radius;
+}
+Math.Circle.prototype.toBall = function () {
+    return new Math.Ball(this.radius);
 }
