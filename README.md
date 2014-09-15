@@ -2,7 +2,7 @@
 ----------------------------------- 
     
 **calculateMe.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
-Right now there a **powerful term-parser** that supports all popular math functions *like sin, cos, tan, log, sqrt or pow*.   
+Right now there's a **powerful term-parser** that supports all popular math functions like *sin, cos, tan, log, sqrt or pow*.   
 
 ## **How to use**
 -----------------------------------
@@ -25,5 +25,5 @@ Math.calculate("2+3*sqrt(12-sin(45)) + 5")   //=17,08147~
 
 ```  
         
-A lot of more **features** e.g. more Math-extensions and even a bunch of gemoetric forms are coming soon!
-Feel free to contact me ([robin@rofrischmann.de](mailto:robin@rofrischmann.de)) if you want to recieve updates.   
+A lot of more **features** e.g. more Math-extensions and even a bunch of gemoetric forms are coming soon!   
+Feel free to contact me ([robin@rofrischmann.de](mailto:robin@rofrischmann.de)) if you want to recieve updates.
