@@ -548,7 +548,8 @@ Math.Rectangle.prototype.toCuboid = function (height) {
     return new Math.Cuboid(this.width, this.length, height);
 }
 
-/* Cuboid */
+
+/* CUBOID */
 Math.Cuboid = function (width, length, height) {
     this.width = width;
     this.length = length;
@@ -592,4 +593,67 @@ Math.Cuboid.prototype.getSize = function (delimiter) {
 }
 Math.Cuboid.prototype.getBodyDiagonal = function () {
     return Math.sqrt(this.width * this.width + this.length * this.length + this.height * this.height);
+}
+
+/*TRIANGLE*/
+Math.Triangle = function (sideA, sideB, sideC) {
+    this.a = sideA;
+    this.b = sideB;
+    this.c = sideC;
+}
+Math.Triangle.prototype.getSideA = function () {
+    return this.a;
+}
+Math.Triangle.prototype.setSideA = function (sideA) {
+    this.a = sideA;
+}
+Math.Triangle.prototype.getSideB = function () {
+    return this.b;
+}
+Math.Triangle.prototype.setSideB = function (sideB) {
+    this.b = sideB;
+}
+Math.Triangle.prototype.getSideC = function () {
+    return this.c;
+}
+Math.Triangle.prototype.setSideC = function (sideC) {
+    this.c = sideC;
+}
+Math.Triangle.prototype.getPerimeter = function () {
+    return this.a + this.b + this.c;
+}
+Math.Triangle.prototype.setSize = function (sideA, sideB, sideC) {
+    this.a = sideA;
+    this.b = sideB;
+    this.c = sideC;
+}
+Math.Triangle.prototype.getHeightA = function () {
+    return Math.sin(this.getBeta()) * this.c;
+}
+Math.Triangle.prototype.getHeightB = function () {
+    return Math.sin(this.getGamma()) * this.a;
+}
+Math.Triangle.prototype.getHeightC = function () {
+    return Math.sin(this.Alpha()) * this.b;
+}
+Math.Triangle.prototype.getGamma = function () {
+    return Math.acos((this.c * this.c - this.b * this.b - this.a * this.a) / (-2 * this.a * this.b));
+}
+Math.Triangle.prototype.getBeta = function () {
+    return Math.acos((this.b * this.b - this.a * this.a - this.c * this.c) / (-2 * this.a * this.c));
+}
+Math.Triangle.prototype.getAlpha = function () {
+    return Math.acos((this.a * this.a - this.b * this.b - this.c * this.c) / (-2 * this.b * this.c));
+}
+Math.Triangle.prototype.getArea = function () {
+    return ((1 / 2) * this.c) * this.getHeightC();
+}
+Math.Triangle.prototype.isIsosceles = function () {
+    return ((this.a == this.b && this.a != this.c && this.getAlpha() == this.getBeta()) || (this.b == this.c && this.b != this.a && this.getBeta() == this.getGamma()) || (this.c == this.a && this.c != this.b && this.getAlpha() == this.getGamma()));
+}
+Math.Triangle.prototype.isEquilateral = function () {
+    return (this.a == this.b && this.b == this.c && this.getAlpha() == this.getGamma() && this.getAlpha() == this.getBeta());
+}
+Math.Triangle.prototype.isRightAngled = function () {
+    return (this.getAlpha() == 90 || this.getBeta() == 90 || this.getGamma == 90);
 }
