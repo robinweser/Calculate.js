@@ -485,3 +485,23 @@ Math.Circle.prototype.setRadius = function (radius) {
 Math.Circle.prototype.toBall = function () {
     return new Math.Ball(this.radius);
 }
+
+/*BALL*/
+Math.Ball = function (radius) {
+    this.radius = radius;
+}
+Math.Ball.prototype.getDiameter = function () {
+    return 2 * this.radius;
+}
+Math.Ball.prototype.getSurface = function () {
+    return 4 * Math.PI * (this.radius * this.radius);
+}
+Math.Ball.prototype.getVolume = function () {
+    return (4 / 3) * Math.PI * (this.radius * this.radius * this.radius);
+}
+Math.Ball.prototype.getRadius = function () {
+    return this.radius;
+}
+Math.Ball.prototype.setRadius = function (radius) {
+    this.radius = radius;
+}
