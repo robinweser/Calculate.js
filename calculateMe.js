@@ -1,3 +1,23 @@
+
+ /*===========================================================================
+
+   calculateMe.js is kind of an extension to the JavaScript build-in Math-Library.
+   Check https://bitbucket.org/Grindelwald/calculateme.js for more information
+
+   Current Version: 0.0.1
+                    September 15 2014
+
+   Author(s): Robin Frischmann
+   License: CPOL : The Code Project Open License 1.02
+            http://www.codeproject.com/info/cpol10.aspx
+
+   If you modify this code please add your name and what was modified to this
+   header, as well as the date modified.
+
+ ===========================================================================*/
+
+
+
 //Returns a term with only addition/substraction until a multiplication/division starts
 function addUntil(term) {
     var i = 0;
