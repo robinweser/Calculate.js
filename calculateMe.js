@@ -1,10 +1,10 @@
-//Returns a therm with only addition/substraction until a multiplication/division starts
-function addUntil(therm) {
+//Returns a term with only addition/substraction until a multiplication/division starts
+function addUntil(term) {
     var i = 0;
-    if (therm.indexOf("*") != -1 || therm.indexOf("/") != -1) {
-        while (therm.substr(i, 1).indexOf("*") == -1 && therm.substr(i, 1).indexOf("/") == -1 && therm.length > i + 1)++i;
-        return therm.substr(0, Math.max(1, i));
-    } else return therm;
+    if (term.indexOf("*") != -1 || term.indexOf("/") != -1) {
+        while (term.substr(i, 1).indexOf("*") == -1 && term.substr(i, 1).indexOf("/") == -1 && term.length > i + 1)++i;
+        return term.substr(0, Math.max(1, i));
+    } else return term;
 };
 
 //Gets the factor used to calculate the different settings DEG, RAD, GRA, defaults to DEG
@@ -18,7 +18,7 @@ function getModeSetting(mode) {
 
 /* MATH-EXTENSIONS  */
 /* THERM-PARSER */
-//Contains all alternative notation possibilities that can also be used to define a therm
+//Contains all alternative notation possibilities that can also be used to define a term
 Math.alternativeNotation = {
     ":": "/",
     " ": "",
@@ -36,70 +36,70 @@ Math.alternativeNotation = {
 
 }
 
-//Contains the whole alphabet with which a therm is constructed
+//Contains the whole alphabet with which a term is constructed
 Math.alphabet = ["e", "pi", "ln(", "lg(", "tan(", "sin(", "cos(", "sqrt(", "|(", ".", " ", ",", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "(", ")", "+", "-", "*", "/", "^"];
 
-//Calculates a simple therm only containing addition, substraction, multiplication and division
-Math.parseSimpleTherm = function (therm) {
+//Calculates a simple term only containing addition, substraction, multiplication and division
+Math.parseSimpleTerm = function (term) {
     var erg = 0.0;
     var tempLeft, tempRight, tempOperator;
-    var tempTherm;
-    var addition = therm.split('+');
+    var tempTerm;
+    var addition = term.split('+');
     var i = 0;
     while (i <= addition.length - 1) {
-        tempTherm = addition[i];
-        tempTherm = tempTherm.replace("--", "+");
-        tempTherm = tempTherm.replace("+-", "-");
-        while (tempTherm.indexOf('*') != -1 || tempTherm.indexOf('/') != -1) {
-            tempLeft = addUntil(tempTherm);
-            tempOperator = tempTherm.substr(tempLeft.length, 1);
-            tempRight = addUntil(tempTherm.substr(tempLeft.length + 1, tempTherm.length - (tempLeft.length) - 1));
+        tempTerm = addition[i];
+        tempTerm = tempTerm.replace("--", "+");
+        tempTerm = tempTerm.replace("+-", "-");
+        while (tempTerm.indexOf('*') != -1 || tempTerm.indexOf('/') != -1) {
+            tempLeft = addUntil(tempTerm);
+            tempOperator = tempTerm.substr(tempLeft.length, 1);
+            tempRight = addUntil(tempTerm.substr(tempLeft.length + 1, tempTerm.length - (tempLeft.length) - 1));
             if (tempRight == "" || tempLeft == "") {
                 return "wrong";
             }
-            if (tempOperator.indexOf("*") != -1) tempTherm = tempTherm.replace(tempTherm.substr(0, tempLeft.length + 1 + tempRight.length), (tempLeft * tempRight));
-            if (tempOperator.indexOf("/") != -1) tempTherm = tempTherm.replace(tempTherm.substr(0, tempLeft.length + 1 + tempRight.length), (tempLeft / tempRight));
+            if (tempOperator.indexOf("*") != -1) tempTerm = tempTerm.replace(tempTerm.substr(0, tempLeft.length + 1 + tempRight.length), (tempLeft * tempRight));
+            if (tempOperator.indexOf("/") != -1) tempTerm = tempTerm.replace(tempTerm.substr(0, tempLeft.length + 1 + tempRight.length), (tempLeft / tempRight));
         }
-        erg += parseFloat(tempTherm);
+        erg += parseFloat(tempTerm);
         ++i;
     }
     return erg;
 };
 
-//Calcules a simple therm also containing brackets
-Math.parseBracketTherm = function (therm, mode) {
+//Calcules a simple term also containing brackets
+Math.parseBracketTerm = function (term, mode) {
     var i = 0;
     var start = 0;
     var row = 1;
-    if (therm.indexOf("(") != -1) {
-        while (therm.indexOf("(") != -1) {
+    if (term.indexOf("(") != -1) {
+        while (term.indexOf("(") != -1) {
             while (row > 0) {
-                if (therm.substr(i, 1) == "(") {
+                if (term.substr(i, 1) == "(") {
                     start = i + 1;
                     row = 1;
                 }
-                if (therm.substr(i, 1) == ")") {
+                if (term.substr(i, 1) == ")") {
                     --row;
                     break;
                 }
                 ++i;
             }
-            therm = therm.replace("(" + therm.substr(start, i - start + 1), Math.parseTherm(therm.substr(start, i - start), mode));
+            term = term.replace("(" + term.substr(start, i - start + 1), Math.parseTerm(term.substr(start, i - start), mode));
             row = 1;
             i = 0;
             start = 0;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates a sinus considering the selected mode  (default = DEG)
-Math.parseSin = function (therm, mode) {
+Math.parseSin = function (term, mode) {
     var row = 1;
     var i = 1;
     var actual;
-    if (therm.indexOf("sin") != -1) {
-        var splitSin = therm.split('sin');
+    if (term.indexOf("sin") != -1) {
+        var splitSin = term.split('sin');
         for (var p = 1; p <= splitSin.length - 1; ++p) {
             actual = splitSin[p];
             while (row > 0) {
@@ -107,21 +107,21 @@ Math.parseSin = function (therm, mode) {
                 if (actual.substr(i, 1) == ")")--row;
                 ++i;
             }
-            therm = therm.replace("sin" + actual.substr(0, i), Math.sin(Math.parseTherm("(" + actual.substr(0, i) + getModeSetting(mode) + ")", mode)));
+            term = term.replace("sin" + actual.substr(0, i), Math.sin(Math.parseTerm("(" + actual.substr(0, i) + getModeSetting(mode) + ")", mode)));
             row = 1;
             i = 1;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates a cosinus considering the selected mode (default = DEG)
-Math.parseCos = function (therm, mode) {
+Math.parseCos = function (term, mode) {
     var row = 1;
     var i = 1;
     var actual;
-    if (therm.indexOf("cos") != -1) {
-        var splitCos = therm.split('cos');
+    if (term.indexOf("cos") != -1) {
+        var splitCos = term.split('cos');
         for (var p = 1; p <= splitCos.length - 1; ++p) {
             actual = splitCos[p];
             while (row > 0) {
@@ -129,21 +129,21 @@ Math.parseCos = function (therm, mode) {
                 if (actual.substr(i, 1) == ")")--row;
                 ++i;
             }
-            therm = therm.replace("cos" + actual.substr(0, i), Math.cos(Math.parseTherm("(" + actual.substr(0, i) + getModeSetting(mode) + ")", mode)));
+            term = term.replace("cos" + actual.substr(0, i), Math.cos(Math.parseTerm("(" + actual.substr(0, i) + getModeSetting(mode) + ")", mode)));
             row = 1;
             i = 1;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates a tangens considering the selected mode  (default = DEG)
-Math.parseTan = function (therm, mode) {
+Math.parseTan = function (term, mode) {
     var row = 1;
     var i = 1;
     var actual;
-    if (therm.indexOf("tan") != -1) {
-        var splitTan = therm.split('tan');
+    if (term.indexOf("tan") != -1) {
+        var splitTan = term.split('tan');
         for (var p = 1; p <= splitTan.length - 1; ++p) {
             actual = splitTan[p];
             while (row > 0) {
@@ -151,21 +151,21 @@ Math.parseTan = function (therm, mode) {
                 if (actual.substr(i, 1) == ")")--row;
                 ++i;
             }
-            therm = therm.replace("tan" + actual.substr(0, i), Math.tan(Math.parseTherm("(" + actual.substr(0, i) + getModeSetting(mode) + ")", mode)));
+            term = term.replace("tan" + actual.substr(0, i), Math.tan(Math.parseTerm("(" + actual.substr(0, i) + getModeSetting(mode) + ")", mode)));
             row = 1;
             i = 1;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates an absolute value
-Math.parseAbs = function (therm, mode) {
+Math.parseAbs = function (term, mode) {
     var row = 1;
     var i = 1;
     var actual;
-    if (therm.indexOf("|") != -1) {
-        var splitSin = therm.split('|');
+    if (term.indexOf("|") != -1) {
+        var splitSin = term.split('|');
         for (var p = 1; p <= splitSin.length - 1; ++p) {
             actual = splitSin[p];
             while (row > 0) {
@@ -173,21 +173,21 @@ Math.parseAbs = function (therm, mode) {
                 if (actual.substr(i, 1) == ")")--row;
                 ++i;
             }
-            therm = therm.replace("|" + actual.substr(0, i), Math.abs(Math.parseTherm("(" + actual.substr(0, i) + ")", mode)));
+            term = term.replace("|" + actual.substr(0, i), Math.abs(Math.parseTerm("(" + actual.substr(0, i) + ")", mode)));
             row = 1;
             i = 1;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates a logarithmus
-Math.parseLog = function (therm, mode) {
+Math.parseLog = function (term, mode) {
     var row = 1;
     var i = 1;
     var actual;
-    if (therm.indexOf("ln") != -1) {
-        var splitLn = therm.split('ln');
+    if (term.indexOf("ln") != -1) {
+        var splitLn = term.split('ln');
         for (var p = 1; p <= splitLn.length - 1; ++p) {
             actual = splitLn[p];
             while (row > 0) {
@@ -197,13 +197,13 @@ Math.parseLog = function (therm, mode) {
                 --row;
                 ++i;
             }
-            therm = therm.replace("ln" + actual.substr(0, i), Math.log(Math.parseTherm("(" + actual.substr(0, i) + ")", mode)));
+            term = term.replace("ln" + actual.substr(0, i), Math.log(Math.parseTerm("(" + actual.substr(0, i) + ")", mode)));
             row = 1;
             i = 1;
         }
     }
-    if (therm.indexOf("lg") != -1) {
-        var splitLg = therm.split('lg');
+    if (term.indexOf("lg") != -1) {
+        var splitLg = term.split('lg');
         for (var p = 1; p <= splitLg.length - 1; ++p) {
             actual = splitLg[p];
             while (row > 0) {
@@ -213,21 +213,21 @@ Math.parseLog = function (therm, mode) {
                 --row;
                 ++i;
             }
-            therm = therm.replace("lg" + actual.substr(0, i), (Math.log(Math.parseTherm("(" + actual.substr(0, i) + ")", mode)) / Math.LN10));
+            term = term.replace("lg" + actual.substr(0, i), (Math.log(Math.parseTerm("(" + actual.substr(0, i) + ")", mode)) / Math.LN10));
             row = 1;
             i = 1;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates a squareroot
-Math.parseSqr = function (therm, mode) {
+Math.parseSqr = function (term, mode) {
     var row = 1;
     var i = 1;
     var actual;
-    if (therm.indexOf("sqrt") != -1) {
-        var splitSqr = therm.split('sqrt');
+    if (term.indexOf("sqrt") != -1) {
+        var splitSqr = term.split('sqrt');
         for (var p = 1; p <= splitSqr.length - 1; ++p) {
             actual = splitSqr[p];
             while (row > 0) {
@@ -235,22 +235,22 @@ Math.parseSqr = function (therm, mode) {
                 if (actual.substr(i, 1) == ")")--row;
                 ++i;
             }
-            therm = therm.replace("sqrt" + actual.substr(0, i), Math.sqrt(Math.parseTherm("(" + actual.substr(0, i) + ")", mode)));
+            term = term.replace("sqrt" + actual.substr(0, i), Math.sqrt(Math.parseTerm("(" + actual.substr(0, i) + ")", mode)));
             row = 1;
             i = 1;
         }
     }
-    return therm;
+    return term;
 };
 
 //Calculates a pow with any base and exponent
-Math.parsePow = function (therm, mode) {
+Math.parsePow = function (term, mode) {
     var row = 0;
     var i = 1;
     var j = 0;
     var left, right;
-    while (therm.indexOf("^") != -1) {
-        var splitPow = therm.split('^');
+    while (term.indexOf("^") != -1) {
+        var splitPow = term.split('^');
         left = splitPow[0];
         right = splitPow[1];
         while (left.length >= i) {
@@ -286,59 +286,59 @@ Math.parsePow = function (therm, mode) {
             }
             j++;
         }
-        therm = therm.replace(left.substr(left.length - i + 1, i - 1) + "^" + right.substr(0, j), Math.pow(Math.parseTherm(left.substr(left.length - i + 1, i - 1), mode), Math.parseTherm(right.substr(0, j), mode)));
+        term = term.replace(left.substr(left.length - i + 1, i - 1) + "^" + right.substr(0, j), Math.pow(Math.parseTerm(left.substr(left.length - i + 1, i - 1), mode), Math.parseTerm(right.substr(0, j), mode)));
         i = 1;
         j = 0;
     }
-    return therm;
+    return term;
 };
 
-//Calculates a full therm with the whole alphabet considering the selected mode  (default = DEG)
-Math.parseTherm = function (therm, mode) {
-    therm = therm.replace("--", "+");
-    therm = Math.parseAbs(therm, mode);
-    therm = Math.parsePow(therm, mode);
-    therm = Math.parseLog(therm, mode);
-    therm = Math.parseSin(therm, mode);
-    therm = Math.parseTan(therm, mode);
-    therm = Math.parseCos(therm, mode);
-    therm = Math.parseSqr(therm, mode);
-    therm = Math.parseSimpleTherm(Math.parseBracketTherm(therm, mode));
-    return therm;
+//Calculates a full term with the whole alphabet considering the selected mode  (default = DEG)
+Math.parseTerm = function (term, mode) {
+    term = term.replace("--", "+");
+    term = Math.parseAbs(term, mode);
+    term = Math.parsePow(term, mode);
+    term = Math.parseLog(term, mode);
+    term = Math.parseSin(term, mode);
+    term = Math.parseTan(term, mode);
+    term = Math.parseCos(term, mode);
+    term = Math.parseSqr(term, mode);
+    term = Math.parseSimpleTerm(Math.parseBracketTerm(term, mode));
+    return term;
 };
 
-//Corrects a therm as much as possible (wrong operators, right alphabet)
-Math.correctTherm = function (therm) {
-    if (therm.substr(0, 1) == "-") therm = "(-1)*" + therm.substr(1, therm.length - 1);
-    therm = therm.toLowerCase();
+//Corrects a term as much as possible (wrong operators, right alphabet)
+Math.correctTerm = function (term) {
+    if (term.substr(0, 1) == "-") term = "(-1)*" + term.substr(1, term.length - 1);
+    term = term.toLowerCase();
     for (item in Math.alternativeNotation) {
-        while (therm.indexOf(item) != -1) {
-            therm = therm.replace(item, Math.alternativeNotation[item]);
+        while (term.indexOf(item) != -1) {
+            term = term.replace(item, Math.alternativeNotation[item]);
         }
     }
-    therm = therm.replace("--", "+");
-    therm = therm.replace("+-", "-");
-    for (var i = 0; i <= therm.length - 1; ++i) {
-        if (therm.substr(i, 1).indexOf("-") == 0) {
-            if (therm.substr(i - 1, 1).indexOf("(") == -1 && therm.substr(i - 1, 1).indexOf("/") == -1 && therm.substr(i - 1, 1).indexOf("*") == -1 && therm.substr(i - 1, 1).indexOf("^") == -1 && therm.substr(i - 1, 1).indexOf("-") == -1) {
-                therm = therm.substr(0, i) + "+" + therm.substr(i, therm.length - i);
+    term = term.replace("--", "+");
+    term = term.replace("+-", "-");
+    for (var i = 0; i <= term.length - 1; ++i) {
+        if (term.substr(i, 1).indexOf("-") == 0) {
+            if (term.substr(i - 1, 1).indexOf("(") == -1 && term.substr(i - 1, 1).indexOf("/") == -1 && term.substr(i - 1, 1).indexOf("*") == -1 && term.substr(i - 1, 1).indexOf("^") == -1 && term.substr(i - 1, 1).indexOf("-") == -1) {
+                term = term.substr(0, i) + "+" + term.substr(i, term.length - i);
                 ++i;
             }
         }
     }
-    therm = therm.toLowerCase();
-    return therm;
+    term = term.toLowerCase();
+    return term;
 };
 
-//Checks if a therm has its brackets set correct
-Math.isCorrectBrackets = function (therm) {
+//Checks if a term has its brackets set correct
+Math.isCorrectBrackets = function (term) {
     var row = 0;
-    if (therm.indexOf("()") != -1) {
+    if (term.indexOf("()") != -1) {
         return false;
     };
-    for (var i = 0; i < therm.length; ++i) {
-        if (therm.substr(i, 1) == "(")++row;
-        if (therm.substr(i, 1) == ")")--row;
+    for (var i = 0; i < term.length; ++i) {
+        if (term.substr(i, 1) == "(")++row;
+        if (term.substr(i, 1) == ")")--row;
         if (row < 0) {
             return false;
         }
@@ -350,14 +350,14 @@ Math.isCorrectBrackets = function (therm) {
     }
 };
 
-//Checks if a therm uses the correct alphabet
-Math.isCorrectAlphabet = function (therm) {
+//Checks if a term uses the correct alphabet
+Math.isCorrectAlphabet = function (term) {
     for (var i = 0; i < Math.alphabet.length; ++i) {
-        while (therm.indexOf(Math.alphabet[i]) != -1) {
-            therm = therm.replace(Math.alphabet[i], "");
+        while (term.indexOf(Math.alphabet[i]) != -1) {
+            term = term.replace(Math.alphabet[i], "");
         }
     }
-    if (therm.length == 0) {
+    if (term.length == 0) {
         return true;
     } else {
         return false;
@@ -365,14 +365,14 @@ Math.isCorrectAlphabet = function (therm) {
 };
 
 //USE THIS ONE TO FINALLY CALCULATE
-//Returns the calculated therm with all settings, checks and selected mode (default = DEG)
-Math.calculate = function (therm, mode) {
-    therm = Math.correctTherm(therm);
-    if (Math.isCorrectBrackets(therm)) {
-        if (Math.isCorrectAlphabet(therm)) {
-            var erg = Math.parseTherm(therm, mode);
+//Returns the calculated term with all settings, checks and selected mode (default = DEG)
+Math.calculate = function (term, mode) {
+    term = Math.correctTerm(term);
+    if (Math.isCorrectBrackets(term)) {
+        if (Math.isCorrectAlphabet(term)) {
+            var erg = Math.parseTerm(term, mode);
             if (erg.toString() == "NaN" || erg.toString() == "wrong") {
-                return "Invalid therm. Something caused the parser to crash.";
+                return "Invalid term. Something caused the parser to crash.";
             } else {
                 return erg;
             }
