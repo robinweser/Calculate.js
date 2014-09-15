@@ -29,5 +29,5 @@ Math.calculate("2+3*sqrt(12-sin(45)) + 5")   //=17,08147~
 
 ```  
         
-A lot of more **features** e.g. more Math-extensions and even a bunch of gemoetric forms are coming soon!   
+A lot of more **features** e.g. more Math-extensions and even a bunch of geometric forms are coming soon!   
 Feel free to contact me ([robin@rofrischmann.de](mailto:robin@rofrischmann.de)) if you want to receive updates.
