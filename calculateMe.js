@@ -34,10 +34,188 @@ function getModeSetting(mode) {
     return setting;
 };
 
+var maxValue = 9999999999999999999;
 
 //* MATH-EXTENSIONS  *//
+Math.sinus = function (value, mode) {
+    return Math.sin(Math.parseSimpleTerm(value + getModeSetting(mode)));
+}
+Math.cosinus = function (value, mode) {
+    return Math.cos(Math.parseSimpleTerm(value + getModeSetting(mode)));
+}
+Math.tangens = function (value, mode) {
+    return Math.tan(Math.parseSimpleTerm(value + getModeSetting(mode)));
+}
+Math.arcusSinus = function (value, mode) {
+    return Math.asin(Math.parseSimpleTerm(value + getModeSetting(mode)));
+}
+Math.arcusCosinus = function (value, mode) {
+    return Math.acos(Math.parseSimpleTerm(value + getModeSetting(mode)));
+}
+Math.arcusTangens = function (value, mode) {
+    return Math.atan(Math.parseSimpleTerm(value + getModeSetting(mode)));
+}
+Math.toFraction = function (value) {
+    var val = Math.abs(value);
+    for (var i = 2; i < maxValue; ++i) {
+        if ((val * i) % 1 == 0) {
+            return new Math.Fraction(value * i, i);
+        }
+    }
+}
+Math.mod = function (dividend, divisor) {
+    return dividend % divisor;
+}
+Math.div = function (dividend, divisor) {
+    return parseInt(dividend / divisor);
+}
+Math.square = function (value) {
+    return (value * value);
+}
+Math.checksum = function (value) {
+    var checksum = 0;
+    value = parseInt(value);
+    while (value > 0) {
+        checksum += (value % 10);
+        value = Math.div(value, 10);
+    }
+    return checksum;
+}
+Math.multiplicativeDigitalRoot = function (value) {
+    var multiplicativeDigitalRoot = 1;
+    value = parseInt(value);
+    while (value > 0) {
+        multiplicativeDigitalRoot *= (value % 10);
+        value = Math.div(value, 10);
+    }
+    return multiplicativeDigitalRoot;
+}
+Math.root = function (radicand, rootExponent) {
+    return Math.pow(radicand, (1 / (rootExponent > 2 ? rootExponent : 2)));
+}
+Math.factorial = function (value) {
+    if (value % 1 == 0) {
+        var factorial = 1;
+        for (var i = 2; i <= value; ++i) {
+            factorial *= i;
+        }
+        return factorial;
+    } else return false;
+}
+Math.sumOfSquareNumbers = function (interval, endValue) {
+    var sumOfSquareNumbers = 0;
+    var start, end;
+    if (interval instanceof Math.Interval) {
+        //TODO
+    } else {
+        start = parseInt(interval);
+        end = parseInt(endValue);
+
+    }
+    for (var i = start; i <= end; ++i) {
+        sumOfSquareNumbers += (i * i);
+    }
+    return sumOfSquareNumbers;
+}
+Math.sumOfNaturals = function (interval, endValue) {
+    var sumOfNaturals = 0;
+    var start, end;
+    if (interval instanceof Math.Interval) {
+        //TODO
+    } else {
+        start = parseInt(interval);
+        end = parseInt(endValue);
+
+    }
+    for (var i = start; i <= end; ++i) {
+        sumOfNaturals += i;
+    }
+    return sumOfNaturals;
+}
+Math.lastDigit = function (value) {
+    return parseInt(value) % 10;
+}
+Math.isPrime = function (value) {
+    if (value == Math.floor(value)) {
+        var isPrime = (value < 2 || value == 4 || (value > 5 && (!(value % 2) || !(value % 3) || !(value % 5))) ? false : true);
+        var maxDivisor = parseInt(Math.sqrt(value));
+        if (isPrime) {
+            for (var i = 7; i <= maxDivisor; i += 2) {
+                if (value % i == 0) {
+                    return false;
+                }
+            }
+        }
+        return isPrime;
+    } else return false;
+}
+
+Math.nextPrime = function (value, pos, includingNumber) {
+    if (!includingNumber)++value;
+    while (pos > 0) {
+        if (Math.isPrime(value)) {
+            --pos;
+        }
+        ++value;
+    }
+    --value;
+    return value;
+}
+
+Math.previousPrime = function (value, pos, includingNumber) {
+    if (!includingNumber)--value;
+    while (pos > 0) {
+        if (Math.isPrime(value)) {
+            --pos;
+        }
+        --value;
+        if (value == 1) {
+            pos = 0;
+        }
+    }
+    ++value;
+    return value;
+}
+Math.primeCount = function (interval, endValue) {
+    var primeCount = 0;
+    var start, end;
+    if (interval instanceof Math.Interval) {
+        //TODO
+    } else {
+        start = parseInt(interval);
+        end = parseInt(endValue);
+    }
+    if (start < end) {
+        for (var i = start; i <= end; ++i) {
+            if (Math.isPrime(i))++primeCout;
+        }
+    }
+    return primeCount;
+}
+Math.primes = function (interval, endValue) {
+    var primes = [];
+    var start, end;
+    if (interval instanceof Math.Interval) {
+        //TODO
+    } else {
+        start = parseInt(interval);
+        end = parseInt(endValue);
+    }
+    if (start < end) {
+        for (var i = start; i <= end; ++i) {
+            if (Math.isPrime(i)) primes.push(i);
+        }
+    }
+    return primes;
+}
+Math.toCorrectAngle = function (value) {
+    return value % 360;
+}
+
+
+
+
 /* FRACTION */
-var maxValue = 9999999999999999999;
 Math.Fraction = function (numerator, denominator) {
     this.numerator = numerator;
     this.denominator = denominator;
@@ -63,9 +241,25 @@ Math.Fraction.prototype.setFraction = function (numerator, denominator) {
     this.denominator = denominator;
 }
 Math.Fraction.prototype.getGreatestCommonFactor = function () {
-    var gfc = (this.numerator > this.denominator ? this.denominator : this.numerator);
-    while (this.numerator % gfc != 0 || this.denominator % gfc != 0)--gfc;
-    return gfc;
+    var gcf = 1;
+    var x = this.numerator;
+    var y = this.denominator;
+    while (x % 2 == 0 && y % 2 == 0) {
+        x /= 2;
+        y /= 2;
+        gcf *= 2;
+    }
+    while (x != 0) {
+        while (x % 2 == 0) x /= 2;
+        while (y % 2 == 0) y /= 2;
+        if (x < y) {
+            var c = x;
+            x = y;
+            y = c;
+        }
+        x -= y;
+    }
+    return y * gcf;
 }
 Math.Fraction.prototype.getCanceledNumerator = function () {
     return this.numerator / this.getGreatestCommonFactor();
@@ -74,21 +268,20 @@ Math.Fraction.prototype.getCanceledDenominator = function () {
     return this.denominator / this.getGreatestCommonFactor();
 }
 Math.Fraction.prototype.getCanceledFraction = function () {
-    var gfc = this.getGreatestCommonFactor();
-    return new Math.Fraction(this.numerator / gfc, this.denominator / gfc);
+    var gcf = this.getGreatestCommonFactor();
+    return new Math.Fraction(this.numerator / gcf, this.denominator / gcf);
 }
 Math.Fraction.prototype.cancel = function () {
-    var gfc = this.getGreatestCommonFactor();
-    this.numerator /= gfc;
-    this.denominator /= gfc;
+    var gcf = this.getGreatestCommonFactor();
+    this.numerator /= gcf;
+    this.denominator /= gcf;
 }
 Math.Fraction.prototype.getReciprocal = function () {
     return new Math.Fraction(this.denominator, this.numerator);
 }
 Math.Fraction.prototype.getLeastCommonMultiple = function (fraction) {
-    var fractionDenominator = fraction.getDenominator();
-    var lcm = (this.denominator > fractionDenominator ? this.denominator : fractionDenominator);
-    while (lcm % this.denominator != 0 || lcm % fractionDenominator != 0)++lcm;
+    var lcm = (this.denominator > fraction.denominator ? this.denominator : fraction.denominator);
+    while (lcm % this.denominator != 0 || lcm % fraction.denominator != 0)++lcm;
     return lcm;
 }
 Math.Fraction.prototype.correctAlgebraicSign = function () {
@@ -105,16 +298,16 @@ Math.Fraction.prototype.toString = function (delimiter) {
 }
 Math.Fraction.prototype.divide = function (fraction) {
     if (fraction instanceof Math.Fraction) {
-        this.numerator *= fraction.getDenominator();
-        this.denominator *= fraction.getNumerator();
+        this.numerator *= fraction.denominator;
+        this.denominator *= fraction.numerator;
     } else {
         //TODO
     }
 }
 Math.Fraction.prototype.multiplicate = function (fraction) {
     if (fraction instanceof Math.Fraction) {
-        this.numerator *= fraction.getNumerator();
-        this.denominator *= fraction.getDenominator();
+        this.numerator *= fraction.numerator;
+        this.denominator *= fraction.denominator;
     } else {
         //TODO
     }
@@ -122,7 +315,7 @@ Math.Fraction.prototype.multiplicate = function (fraction) {
 Math.Fraction.prototype.add = function (fraction) {
     if (fraction instanceof Math.Fraction) {
         var lcm = this.getLeastCommonMultiple(fraction);
-        this.numerator = this.numerator * (lcm / this.denominator) + fraction.getNumerator() * (lcm / fraction.getDenominator());
+        this.numerator = this.numerator * (lcm / this.denominator) + fraction.numerator * (lcm / fraction.denominator);
         this.denominator = lcm;
     } else {
         //TODO
@@ -131,7 +324,7 @@ Math.Fraction.prototype.add = function (fraction) {
 Math.Fraction.prototype.substract = function (fraction) {
     if (fraction instanceof Math.Fraction) {
         var lcm = this.getLeastCommonMultiple(fraction);
-        this.numerator = this.numerator * (lcm / this.denominator) - fraction.getNumerator() * (lcm / fraction.getDenominator());
+        this.numerator = this.numerator * (lcm / this.denominator) - fraction.numerator * (lcm / fraction.denominator);
         this.denominator = lcm;
     } else {
         //TODO
@@ -554,6 +747,8 @@ Math.Term.prototype.isCorrectAlphabet = function () {
 Math.Term.prototype.isCorrectBrackets = function () {
     return Math.isCorrectBrackets(this.term);
 }
+
+
 
 //*GEOMETRIC FORMS *//
 /*CIRCLE*/
