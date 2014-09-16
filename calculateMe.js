@@ -35,7 +35,111 @@ function getModeSetting(mode) {
 };
 
 
-/* MATH-EXTENSIONS  */
+//* MATH-EXTENSIONS  *//
+/* FRACTION */
+var maxValue = 9999999999999999999;
+Math.Fraction = function (numerator, denominator) {
+    this.numerator = numerator;
+    this.denominator = denominator;
+}
+
+Math.Fraction.prototype.getNumerator = function () {
+    return this.numerator;
+}
+Math.Fraction.prototype.setNumerator = function (numerator) {
+    this.numerator = numerator;
+}
+Math.Fraction.prototype.getDenominator = function () {
+    return this.denominator;
+}
+Math.Fraction.prototype.setDenominator = function (denominator) {
+    this.denominator = denominator;
+}
+Math.Fraction.prototype.getFraction = function () {
+    return this;
+}
+Math.Fraction.prototype.setFraction = function (numerator, denominator) {
+    this.numerator = numerator;
+    this.denominator = denominator;
+}
+Math.Fraction.prototype.getGreatestCommonFactor = function () {
+    var gfc = (this.numerator > this.denominator ? this.denominator : this.numerator);
+    while (this.numerator % gfc != 0 || this.denominator % gfc != 0)--gfc;
+    return gfc;
+}
+Math.Fraction.prototype.getCanceledNumerator = function () {
+    return this.numerator / this.getGreatestCommonFactor();
+}
+Math.Fraction.prototype.getCanceledDenominator = function () {
+    return this.denominator / this.getGreatestCommonFactor();
+}
+Math.Fraction.prototype.getCanceledFraction = function () {
+    var gfc = this.getGreatestCommonFactor();
+    return new Math.Fraction(this.numerator / gfc, this.denominator / gfc);
+}
+Math.Fraction.prototype.cancel = function () {
+    var gfc = this.getGreatestCommonFactor();
+    this.numerator /= gfc;
+    this.denominator /= gfc;
+}
+Math.Fraction.prototype.getReciprocal = function () {
+    return new Math.Fraction(this.denominator, this.numerator);
+}
+Math.Fraction.prototype.getLeastCommonMultiple = function (fraction) {
+    var fractionDenominator = fraction.getDenominator();
+    var lcm = (this.denominator > fractionDenominator ? this.denominator : fractionDenominator);
+    while (lcm % this.denominator != 0 || lcm % fractionDenominator != 0)++lcm;
+    return lcm;
+}
+Math.Fraction.prototype.correctAlgebraicSign = function () {
+    if (this.denominator < 0) {
+        this.numerator *= -1;
+        this.denominator *= -1;
+    }
+}
+Math.Fraction.prototype.calculate = function () {
+    return this.numerator / this.denominator;
+}
+Math.Fraction.prototype.toString = function (delimiter) {
+    return this.numerator + (delimiter ? delimiter : "/") + this.denominator;
+}
+Math.Fraction.prototype.divide = function (fraction) {
+    if (fraction instanceof Math.Fraction) {
+        this.numerator *= fraction.getDenominator();
+        this.denominator *= fraction.getNumerator();
+    } else {
+        //TODO
+    }
+}
+Math.Fraction.prototype.multiplicate = function (fraction) {
+    if (fraction instanceof Math.Fraction) {
+        this.numerator *= fraction.getNumerator();
+        this.denominator *= fraction.getDenominator();
+    } else {
+        //TODO
+    }
+}
+Math.Fraction.prototype.add = function (fraction) {
+    if (fraction instanceof Math.Fraction) {
+        var lcm = this.getLeastCommonMultiple(fraction);
+        this.numerator = this.numerator * (lcm / this.denominator) + fraction.getNumerator() * (lcm / fraction.getDenominator());
+        this.denominator = lcm;
+    } else {
+        //TODO
+    }
+}
+Math.Fraction.prototype.substract = function (fraction) {
+    if (fraction instanceof Math.Fraction) {
+        var lcm = this.getLeastCommonMultiple(fraction);
+        this.numerator = this.numerator * (lcm / this.denominator) - fraction.getNumerator() * (lcm / fraction.getDenominator());
+        this.denominator = lcm;
+    } else {
+        //TODO
+    }
+}
+
+
+
 /* TERM-PARSER */
 //Contains all alternative notation possibilities that can also be used to define a term
 Math.alternativeNotation = {
@@ -83,7 +187,7 @@ Math.parseSimpleTerm = function (term) {
         ++i;
     }
     return erg;
-};
+}
 
 //Calcules a simple term also containing brackets
 Math.parseBracketTerm = function (term, mode) {
@@ -110,7 +214,7 @@ Math.parseBracketTerm = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates a sinus considering the selected mode  (default = DEG)
 Math.parseSin = function (term, mode) {
@@ -132,7 +236,7 @@ Math.parseSin = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates a cosinus considering the selected mode (default = DEG)
 Math.parseCos = function (term, mode) {
@@ -154,7 +258,7 @@ Math.parseCos = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates a tangens considering the selected mode  (default = DEG)
 Math.parseTan = function (term, mode) {
@@ -176,7 +280,7 @@ Math.parseTan = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates an absolute value
 Math.parseAbs = function (term, mode) {
@@ -198,7 +302,7 @@ Math.parseAbs = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates a logarithmus
 Math.parseLog = function (term, mode) {
@@ -238,7 +342,7 @@ Math.parseLog = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates a squareroot
 Math.parseSqr = function (term, mode) {
@@ -260,7 +364,7 @@ Math.parseSqr = function (term, mode) {
         }
     }
     return term;
-};
+}
 
 //Calculates a pow with any base and exponent
 Math.parsePow = function (term, mode) {
@@ -310,7 +414,7 @@ Math.parsePow = function (term, mode) {
         j = 0;
     }
     return term;
-};
+}
 
 //Calculates a full term with the whole alphabet considering the selected mode  (default = DEG)
 Math.parseTerm = function (term, mode) {
@@ -324,7 +428,7 @@ Math.parseTerm = function (term, mode) {
     term = Math.parseSqr(term, mode);
     term = Math.parseSimpleTerm(Math.parseBracketTerm(term, mode));
     return term;
-};
+}
 
 //Corrects a term as much as possible (wrong operators, right alphabet)
 Math.correctTerm = function (term) {
@@ -347,7 +451,7 @@ Math.correctTerm = function (term) {
     }
     term = term.toLowerCase();
     return term;
-};
+}
 
 //Checks if a term has its brackets set correct
 Math.isCorrectBrackets = function (term) {
@@ -367,7 +471,7 @@ Math.isCorrectBrackets = function (term) {
     } else {
         return false;
     }
-};
+}
 
 //Checks if a term uses the correct alphabet
 Math.isCorrectAlphabet = function (term, alphabet) {
@@ -382,7 +486,7 @@ Math.isCorrectAlphabet = function (term, alphabet) {
     } else {
         return false;
     }
-};
+}
 
 //USE THIS ONE TO FINALLY CALCULATE
 //Returns the calculated term with all settings, checks and selected mode (default = DEG)
@@ -415,7 +519,7 @@ Math.Term.prototype.alphabet = Math.alphabet;
 //Corrects and returns the term
 Math.Term.prototype.correctTerm = function () {
     this.term = Math.correctTerm(this.term);
-};
+}
 
 //Calculates the term and returns the result
 Math.Term.prototype.calculate = function () {
@@ -451,7 +555,7 @@ Math.Term.prototype.isCorrectBrackets = function () {
     return Math.isCorrectBrackets(this.term);
 }
 
-
+//*GEOMETRIC FORMS *//
 /*CIRCLE*/
 Math.Circle = function (radius) {
     this.radius = radius;
@@ -673,4 +777,7 @@ Math.Triangle.prototype.isEquilateral = function () {
 }
 Math.Triangle.prototype.isRightAngled = function () {
     return (this.getAlpha() == 90 || this.getBeta() == 90 || this.getGamma() == 90);
+}
+Math.Triangle.prototype.isTriangle = function () {
+    return !(this.a + this.b == this.c || this.b + this.c == this.a || this.c + this.a == this.b);
 }
