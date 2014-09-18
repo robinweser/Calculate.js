@@ -364,6 +364,67 @@ Math.Fraction.prototype.substract = function (fraction) {
     }
 }
 
+/*INTERVAL*/
+Math.Interval = function (startValue, endValue, includingStart, includingEnd) {
+    if (typeof startValue == "string") {
+        startValue = startValue.replace(/ /g, "");
+        this.includingStart = (startValue.indexOf("(") != -1 ? false : true);
+        this.startValue = parseFloat(startValue.split(",")[0].replace((this.includingStart ? "[" : "("), ""));
+        this.includingEnd = (startValue.indexOf(")") != -1 ? false : true);
+        this.endValue = parseFloat(startValue.split(",")[1].replace((this.includingEnd ? "]" : ")"), ""));
+    } else {
+        this.startValue = startValue;
+        this.endValue = endValue;
+        this.includingStart = (includingStart ? includingStart : true);
+        this.includingEnd = (includingEnd ? includingEnd : true);
+    }
+}
+
+Math.Interval.prototype.getStartValue = function () {
+    return this.startValue;
+}
+Math.Interval.prototype.setStartValue = function (startValue) {
+    this.startValue = startValue;
+}
+Math.Interval.prototype.getEndValue = function () {
+    return this.endValue;
+}
+Math.Interval.prototype.setEndValue = function (endValue) {
+    this.endValue = endValue;
+}
+Math.Interval.prototype.getIncludingStart = function () {
+    return this.includingStart;
+}
+Math.Interval.prototype.setIncludingStart = function (includingStart) {
+    this.includingStart = includingStart;
+}
+Math.Interval.prototype.getIncludingEnd = function () {
+    return this.includingEnd;
+}
+Math.Interval.prototype.setIncludingEnd = function (includingEnd) {
+    this.includingEnd = endValue;
+}
+Math.Interval.prototype.toString = function () {
+    return (this.includingStart ? "[" : "(") + this.startValue + ", " + this.endValue + (this.includingEnd ? "]" : ")");
+}
+Math.Interval.prototype.isLeftOpened = function () {
+    return (this.includingStart ? false : true);
+}
+Math.Interval.prototype.isRightOpened = function () {
+    return (this.includingEnd ? false : true);
+}
+Math.Interval.prototype.isOpened = function () {
+    return (this.includingStart ? false : (this.includingEnd ? false : true));
+}
+Math.Interval.prototype.isLeftClosed = function () {
+    return (this.includingStart ? true : false);
+}
+Math.Interval.prototype.isRightClosed = function () {
+    return (this.includingEnd ? true : false);
+}
+Math.Interval.prototype.isClosed = function () {
+    return (this.includingStart ? (this.includingEnd ? true : false) : false);
+}
 
 //*GEOMETRIC FORMS *//
 /*CIRCLE*/
