@@ -7,36 +7,34 @@
                     September 15 2014
 
    Author(s): Robin Frischmann
-   License: CPOL : The Code Project Open License 1.02
-            http://www.codeproject.com/info/cpol10.aspx
+   License: MIT License
+            http://opensource.org/licenses/mit-license.php
 
    If you modify this code please add your name and what was modified to this
    header, as well as the date modified.
 
  ===========================================================================*/
 
+//* MATH-INFO & CREDITS*//
+Math.info = {
+    name: "calculateMe.js",
+    version: "1.0.0",
+    build: "18.09.2014",
+    author: "Robin Frischmann",
+    copyright: "Copyright " + String.fromCharCode(169) + " 2014 Robin Frischmann - MIT licenese",
+    repository: "https://bitbucket.org/Grindelwald/calculateme.js",
+    description: "calculateMe.js is a small but powerful extensions for the build-in JavaScript Math-Library.",
+    license: "MIT license (http://opensource.org/licenses/mit-license.php)"
 
-
-//Returns a term with only addition/substraction until a multiplication/division starts
-function addUntil(term) {
-    var i = 0;
-    if (term.indexOf("*") != -1 || term.indexOf("/") != -1) {
-        while (term.substr(i, 1).indexOf("*") == -1 && term.substr(i, 1).indexOf("/") == -1 && term.length > i + 1)++i;
-        return term.substr(0, Math.max(1, i));
-    } else return term;
-};
-
-//Gets the factor used to calculate the different settings DEG, RAD, GRA, defaults to DEG
-function getModeSetting(mode) {
-    var setting = "/ 180 * " + Math.PI;
-    if (mode == "RAD") setting = "";
-    if (mode == "GRA") setting = "/ 400 * 360 / 180 * " + Math.PI;
-    return setting;
-};
-
-var maxValue = 9999999999999999999;
+}
 
 //* MATH-EXTENSIONS  *//
+/*CONSTANTS*/
+var maxValue = 9999999999999999999;
+Math.PHI = ((1 + Math.sqrt(5)) / 2);
+
+
+/*FUNCTIONS*/
 Math.sinus = function (value, mode) {
     return Math.sin(Math.parseSimpleTerm(value + getModeSetting(mode)));
 }
@@ -106,7 +104,10 @@ Math.sumOfSquareNumbers = function (interval, endValue) {
     var sumOfSquareNumbers = 0;
     var start, end;
     if (interval instanceof Math.Interval) {
-        //TODO
+        start = interval.startValue;
+        end = interval.endValue;
+        if (!interval.includingStart) start += 1;
+        if (!interval.includingEnd) end -= 1;
     } else {
         start = parseInt(interval);
         end = parseInt(endValue);
@@ -121,7 +122,10 @@ Math.sumOfNaturals = function (interval, endValue) {
     var sumOfNaturals = 0;
     var start, end;
     if (interval instanceof Math.Interval) {
-        //TODO
+        start = interval.startValue;
+        end = interval.endValue;
+        if (!interval.includingStart) start += 1;
+        if (!interval.includingEnd) end -= 1;
     } else {
         start = parseInt(interval);
         end = parseInt(endValue);
@@ -149,7 +153,6 @@ Math.isPrime = function (value) {
         return isPrime;
     } else return false;
 }
-
 Math.nextPrime = function (value, pos, includingNumber) {
     if (!includingNumber)++value;
     while (pos > 0) {
@@ -161,7 +164,6 @@ Math.nextPrime = function (value, pos, includingNumber) {
     --value;
     return value;
 }
-
 Math.previousPrime = function (value, pos, includingNumber) {
     if (!includingNumber)--value;
     while (pos > 0) {
@@ -180,7 +182,10 @@ Math.primeCount = function (interval, endValue) {
     var primeCount = 0;
     var start, end;
     if (interval instanceof Math.Interval) {
-        //TODO
+        start = interval.startValue;
+        end = interval.endValue;
+        if (!interval.includingStart) start += 1;
+        if (!interval.includingEnd) end -= 1;
     } else {
         start = parseInt(interval);
         end = parseInt(endValue);
@@ -196,7 +201,10 @@ Math.primes = function (interval, endValue) {
     var primes = [];
     var start, end;
     if (interval instanceof Math.Interval) {
-        //TODO
+        start = interval.startValue;
+        end = interval.endValue;
+        if (!interval.includingStart) start += 1;
+        if (!interval.includingEnd) end -= 1;
     } else {
         start = parseInt(interval);
         end = parseInt(endValue);
@@ -211,6 +219,38 @@ Math.primes = function (interval, endValue) {
 Math.toCorrectAngle = function (value) {
     return value % 360;
 }
+Math.ln = function (value) {
+    return Math.log(value);
+}
+Math.lg = function (value) {
+    return Math.log(value) / Math.LN10;
+}
+Math.lb = function (value) {
+    return Math.log(value) / Math.LN2;
+}
+Math.logarithm = function (value, logBase) {
+    return Math.log(value) / Math.log((logBase ? logBase : 10));
+}
+Math.isDivisible = function (dividend, divisor) {
+    return (dividend % divisor == 0);
+}
+Math.isNatural = function (value) {
+    return value >= 1 && value == Math.round(value);
+}
+Math.isPositive = function (value) {
+    return value > 0;
+}
+Math.isNegative = function (value) {
+    return value < 0;
+}
+Math.getGreatestCommonFactor = function (valueX, valueY) {
+    return gcf(valueX, valueY);
+}
+Math.getLength = function (value) {
+    return value.toString().length;
+}
+
+
 
 
 
@@ -220,7 +260,6 @@ Math.Fraction = function (numerator, denominator) {
     this.numerator = numerator;
     this.denominator = denominator;
 }
-
 Math.Fraction.prototype.getNumerator = function () {
     return this.numerator;
 }
@@ -241,25 +280,7 @@ Math.Fraction.prototype.setFraction = function (numerator, denominator) {
     this.denominator = denominator;
 }
 Math.Fraction.prototype.getGreatestCommonFactor = function () {
-    var gcf = 1;
-    var x = this.numerator;
-    var y = this.denominator;
-    while (x % 2 == 0 && y % 2 == 0) {
-        x /= 2;
-        y /= 2;
-        gcf *= 2;
-    }
-    while (x != 0) {
-        while (x % 2 == 0) x /= 2;
-        while (y % 2 == 0) y /= 2;
-        if (x < y) {
-            var c = x;
-            x = y;
-            y = c;
-        }
-        x -= y;
-    }
-    return y * gcf;
+    return gcf(this.numerator, this.denominator);
 }
 Math.Fraction.prototype.getCanceledNumerator = function () {
     return this.numerator / this.getGreatestCommonFactor();
@@ -301,7 +322,10 @@ Math.Fraction.prototype.divide = function (fraction) {
         this.numerator *= fraction.denominator;
         this.denominator *= fraction.numerator;
     } else {
-        //TODO
+        var frac = Math.toFraction(fraction);
+        if (frac) {
+            this.divide(frac);
+        }
     }
 }
 Math.Fraction.prototype.multiplicate = function (fraction) {
@@ -309,7 +333,10 @@ Math.Fraction.prototype.multiplicate = function (fraction) {
         this.numerator *= fraction.numerator;
         this.denominator *= fraction.denominator;
     } else {
-        //TODO
+        var frac = Math.toFraction(fraction);
+        if (frac) {
+            this.multiplicate(frac);
+        }
     }
 }
 Math.Fraction.prototype.add = function (fraction) {
@@ -318,7 +345,10 @@ Math.Fraction.prototype.add = function (fraction) {
         this.numerator = this.numerator * (lcm / this.denominator) + fraction.numerator * (lcm / fraction.denominator);
         this.denominator = lcm;
     } else {
-        //TODO
+        var frac = Math.toFraction(fraction);
+        if (frac) {
+            this.add(frac);
+        }
     }
 }
 Math.Fraction.prototype.substract = function (fraction) {
@@ -327,10 +357,240 @@ Math.Fraction.prototype.substract = function (fraction) {
         this.numerator = this.numerator * (lcm / this.denominator) - fraction.numerator * (lcm / fraction.denominator);
         this.denominator = lcm;
     } else {
-        //TODO
+        var frac = Math.toFraction(fraction);
+        if (frac) {
+            this.substract(frac);
+        }
     }
 }
 
+
+//*GEOMETRIC FORMS *//
+/*CIRCLE*/
+Math.Circle = function (radius) {
+    this.radius = radius;
+}
+
+Math.Circle.prototype.getDiameter = function () {
+    return 2 * this.radius;
+}
+
+Math.Circle.prototype.getCircumfenrence = function () {
+    return 2 * this.radius * Math.PI;
+}
+
+Math.Circle.prototype.getArea = function () {
+    return Math.PI * (this.radius * this.radius);
+}
+
+Math.Circle.prototype.getArcLength = function (angle) {
+    return (angle / 360) * this.getCircumfenrence();
+}
+
+Math.Circle.prototype.getArcArea = function (angle) {
+    return (angle / 360) * this.getArea();
+}
+Math.Circle.prototype.getRadius = function () {
+    return this.radius;
+}
+Math.Circle.prototype.setRadius = function (radius) {
+    this.radius = radius;
+}
+Math.Circle.prototype.toBall = function () {
+    return new Math.Ball(this.radius);
+}
+
+/*BALL*/
+Math.Ball = function (radius) {
+    this.radius = radius;
+}
+Math.Ball.prototype.getDiameter = function () {
+    return 2 * this.radius;
+}
+Math.Ball.prototype.getSurface = function () {
+    return 4 * Math.PI * (this.radius * this.radius);
+}
+Math.Ball.prototype.getVolume = function () {
+    return (4 / 3) * Math.PI * (this.radius * this.radius * this.radius);
+}
+Math.Ball.prototype.getRadius = function () {
+    return this.radius;
+}
+Math.Ball.prototype.setRadius = function (radius) {
+    this.radius = radius;
+}
+
+
+/* RECTANGLE */
+Math.Rectangle = function (width, length) {
+    this.width = width;
+    this.length = length;
+}
+
+Math.Rectangle.prototype.getLength = function () {
+    return this.length;
+}
+Math.Rectangle.prototype.setLength = function (length) {
+    this.length = length;
+}
+Math.Rectangle.prototype.getWidth = function () {
+    return this.width;
+}
+Math.Rectangle.prototype.setWidth = function (width) {
+    this.width = width;
+}
+Math.Rectangle.prototype.getPerimeter = function () {
+    return 2 * (this.width + this.length);
+}
+Math.Rectangle.prototype.isSquare = function () {
+    return (this.width == this.length);
+}
+Math.Rectangle.prototype.getArea = function () {
+    return this.width * this.length;
+}
+Math.Rectangle.prototype.getDiagonal = function () {
+    return Math.sqrt((this.width * this.width) + (this.length * this.length));
+}
+Math.Rectangle.prototype.setSize = function (width, length) {
+    this.width = width;
+    this.length = length;
+}
+Math.Rectangle.prototype.getSize = function (delimiter) {
+    return this.width + (delimiter ? delimiter : "x") + this.length;
+}
+Math.Rectangle.prototype.toCuboid = function (height) {
+    return new Math.Cuboid(this.width, this.length, height);
+}
+
+
+/* CUBOID */
+Math.Cuboid = function (width, length, height) {
+    this.width = width;
+    this.length = length;
+    this.height = height;
+}
+Math.Cuboid.prototype.getLength = function () {
+    return this.length;
+}
+Math.Cuboid.prototype.setLength = function (length) {
+    this.length = length;
+}
+Math.Cuboid.prototype.getHeight = function () {
+    return this.height;
+}
+Math.Cuboid.prototype.setHeight = function (height) {
+    this.height = height;
+}
+Math.Cuboid.prototype.getWidth = function () {
+    return this.width;
+}
+Math.Cuboid.prototype.setWidth = function (width) {
+    this.width = width;
+}
+Math.Cuboid.prototype.getEdgeLength = function () {
+    return 4 * (this.width + this.height + this.length);
+}
+Math.Cuboid.prototype.isHexaedron = function () {
+    return (this.width == this.length && this.length == this.height);
+}
+Math.Cuboid.prototype.getSurface = function () {
+    return 2 * this.width * this.length + 2 * this.width * this.height + 2 * this.length * this.height;
+}
+Math.Cuboid.prototype.setSize = function (width, length, height) {
+    this.width = width;
+    this.length = length;
+    this.height = height;
+}
+Math.Cuboid.prototype.getSize = function (delimiter) {
+    delimiter = (delimiter ? delimiter : "x");
+    return this.width + delimiter + this.length + delimiter + this.height;
+}
+Math.Cuboid.prototype.getBodyDiagonal = function () {
+    return Math.sqrt(this.width * this.width + this.length * this.length + this.height * this.height);
+}
+
+/*TRIANGLE*/
+Math.Triangle = function (sideA, sideB, sideC) {
+    this.a = sideA;
+    this.b = sideB;
+    this.c = sideC;
+}
+Math.Triangle.prototype.getSideA = function () {
+    return this.a;
+}
+Math.Triangle.prototype.setSideA = function (sideA) {
+    this.a = sideA;
+}
+Math.Triangle.prototype.getSideB = function () {
+    return this.b;
+}
+Math.Triangle.prototype.setSideB = function (sideB) {
+    this.b = sideB;
+}
+Math.Triangle.prototype.getSideC = function () {
+    return this.c;
+}
+Math.Triangle.prototype.setSideC = function (sideC) {
+    this.c = sideC;
+}
+Math.Triangle.prototype.getPerimeter = function () {
+    return this.a + this.b + this.c;
+}
+Math.Triangle.prototype.setSize = function (sideA, sideB, sideC) {
+    this.a = sideA;
+    this.b = sideB;
+    this.c = sideC;
+}
+Math.Triangle.prototype.getHeightA = function () {
+    return Math.sin(this.getBeta()) * this.c;
+}
+Math.Triangle.prototype.getHeightB = function () {
+    return Math.sin(this.getGamma()) * this.a;
+}
+Math.Triangle.prototype.getHeightC = function () {
+    return Math.sin(this.getAlpha()) * this.b;
+}
+Math.Triangle.prototype.getHeights = function () {
+    return {
+        heightA: this.getHeightA(),
+        heightB: this.getHeightB(),
+        heightC: this.getHeightC()
+    }
+}
+Math.Triangle.prototype.getGamma = function () {
+    return Math.acos((this.c * this.c - this.b * this.b - this.a * this.a) / (-2 * this.a * this.b));
+}
+Math.Triangle.prototype.getBeta = function () {
+    return Math.acos((this.b * this.b - this.a * this.a - this.c * this.c) / (-2 * this.a * this.c));
+}
+Math.Triangle.prototype.getAlpha = function () {
+    return Math.acos((this.a * this.a - this.b * this.b - this.c * this.c) / (-2 * this.b * this.c));
+}
+Math.Triangle.prototype.getAngles = function () {
+    return {
+        alpha: this.getAlpha(),
+        beta: this.getBeta(),
+        gamma: this.getGamma()
+    }
+}
+Math.Triangle.prototype.getArea = function () {
+    return ((1 / 2) * this.c) * this.getHeightC();
+}
+Math.Triangle.prototype.isIsosceles = function () {
+    var gamma = this.getGamma();
+    var alpha = this.getAlpha();
+    var beta = this.getBeta();
+    return ((this.a == this.b && this.a != this.c && alpha == beta) || (this.b == this.c && this.b != this.a && beta == gamma) || (this.c == this.a && this.c != this.b && alpha == gamma));
+}
+Math.Triangle.prototype.isEquilateral = function () {
+    return (this.a == this.b && this.b == this.c && this.getAlpha() == this.getGamma() && this.getAlpha() == this.getBeta());
+}
+Math.Triangle.prototype.isRightAngled = function () {
+    return (this.getAlpha() == 90 || this.getBeta() == 90 || this.getGamma() == 90);
+}
+Math.Triangle.prototype.isTriangle = function () {
+    return !(this.a + this.b == this.c || this.b + this.c == this.a || this.c + this.a == this.b);
+}
 
 
 /* TERM-PARSER */
@@ -750,229 +1010,42 @@ Math.Term.prototype.isCorrectBrackets = function () {
 
 
 
-//*GEOMETRIC FORMS *//
-/*CIRCLE*/
-Math.Circle = function (radius) {
-    this.radius = radius;
-}
+//*ADDITIONAL FUNCTIONS*//
+//Returns a term with only addition/substraction until a multiplication/division starts
+function addUntil(term) {
+    var i = 0;
+    if (term.indexOf("*") != -1 || term.indexOf("/") != -1) {
+        while (term.substr(i, 1).indexOf("*") == -1 && term.substr(i, 1).indexOf("/") == -1 && term.length > i + 1)++i;
+        return term.substr(0, Math.max(1, i));
+    } else return term;
+};
 
-Math.Circle.prototype.getDiameter = function () {
-    return 2 * this.radius;
-}
+//Gets the factor used to calculate the different settings DEG, RAD, GRA, defaults to DEG
+function getModeSetting(mode) {
+    var setting = "/ 180 * " + Math.PI;
+    if (mode == "RAD") setting = "";
+    if (mode == "GRA") setting = "/ 400 * 360 / 180 * " + Math.PI;
+    return setting;
+};
 
-Math.Circle.prototype.getCircumfenrence = function () {
-    return 2 * this.radius * Math.PI;
-}
-
-Math.Circle.prototype.getArea = function () {
-    return Math.PI * (this.radius * this.radius);
-}
-
-Math.Circle.prototype.getArcLength = function (angle) {
-    return (angle / 360) * this.getCircumfenrence();
-}
-
-Math.Circle.prototype.getArcArea = function (angle) {
-    return (angle / 360) * this.getArea();
-}
-Math.Circle.prototype.getRadius = function () {
-    return this.radius;
-}
-Math.Circle.prototype.setRadius = function (radius) {
-    this.radius = radius;
-}
-Math.Circle.prototype.toBall = function () {
-    return new Math.Ball(this.radius);
-}
-
-/*BALL*/
-Math.Ball = function (radius) {
-    this.radius = radius;
-}
-Math.Ball.prototype.getDiameter = function () {
-    return 2 * this.radius;
-}
-Math.Ball.prototype.getSurface = function () {
-    return 4 * Math.PI * (this.radius * this.radius);
-}
-Math.Ball.prototype.getVolume = function () {
-    return (4 / 3) * Math.PI * (this.radius * this.radius * this.radius);
-}
-Math.Ball.prototype.getRadius = function () {
-    return this.radius;
-}
-Math.Ball.prototype.setRadius = function (radius) {
-    this.radius = radius;
-}
-
-
-/* RECTANGLE */
-Math.Rectangle = function (width, length) {
-    this.width = width;
-    this.length = length;
-}
-
-Math.Rectangle.prototype.getLength = function () {
-    return this.length;
-}
-Math.Rectangle.prototype.setLength = function (length) {
-    this.length = length;
-}
-Math.Rectangle.prototype.getWidth = function () {
-    return this.width;
-}
-Math.Rectangle.prototype.setWidth = function (width) {
-    this.width = width;
-}
-Math.Rectangle.prototype.getPerimeter = function () {
-    return 2 * (this.width + this.length);
-}
-Math.Rectangle.prototype.isSquare = function () {
-    return (this.width == this.length);
-}
-Math.Rectangle.prototype.getArea = function () {
-    return this.width * this.length;
-}
-Math.Rectangle.prototype.getDiagonal = function () {
-    return Math.sqrt((this.width * this.width) + (this.length * this.length));
-}
-Math.Rectangle.prototype.setSize = function (width, length) {
-    this.width = width;
-    this.length = length;
-}
-Math.Rectangle.prototype.getSize = function (delimiter) {
-    return this.width + (delimiter ? delimiter : "x") + this.length;
-}
-Math.Rectangle.prototype.toCuboid = function (height) {
-    return new Math.Cuboid(this.width, this.length, height);
-}
-
-
-/* CUBOID */
-Math.Cuboid = function (width, length, height) {
-    this.width = width;
-    this.length = length;
-    this.height = height;
-}
-Math.Cuboid.prototype.getLength = function () {
-    return this.length;
-}
-Math.Cuboid.prototype.setLength = function (length) {
-    this.length = length;
-}
-Math.Cuboid.prototype.getHeight = function () {
-    return this.height;
-}
-Math.Cuboid.prototype.setHeight = function (height) {
-    this.height = height;
-}
-Math.Cuboid.prototype.getWidth = function () {
-    return this.width;
-}
-Math.Cuboid.prototype.setWidth = function (width) {
-    this.width = width;
-}
-Math.Cuboid.prototype.getEdgeLength = function () {
-    return 4 * (this.width + this.height + this.length);
-}
-Math.Cuboid.prototype.isHexaedron = function () {
-    return (this.width == this.length && this.length == this.height);
-}
-Math.Cuboid.prototype.getSurface = function () {
-    return 2 * this.width * this.length + 2 * this.width * this.height + 2 * this.length * this.height;
-}
-Math.Cuboid.prototype.setSize = function (width, length, height) {
-    this.width = width;
-    this.length = length;
-    this.height = height;
-}
-Math.Cuboid.prototype.getSize = function (delimiter) {
-    delimiter = (delimiter ? delimiter : "x");
-    return this.width + delimiter + this.length + delimiter + this.height;
-}
-Math.Cuboid.prototype.getBodyDiagonal = function () {
-    return Math.sqrt(this.width * this.width + this.length * this.length + this.height * this.height);
-}
-
-/*TRIANGLE*/
-Math.Triangle = function (sideA, sideB, sideC) {
-    this.a = sideA;
-    this.b = sideB;
-    this.c = sideC;
-}
-Math.Triangle.prototype.getSideA = function () {
-    return this.a;
-}
-Math.Triangle.prototype.setSideA = function (sideA) {
-    this.a = sideA;
-}
-Math.Triangle.prototype.getSideB = function () {
-    return this.b;
-}
-Math.Triangle.prototype.setSideB = function (sideB) {
-    this.b = sideB;
-}
-Math.Triangle.prototype.getSideC = function () {
-    return this.c;
-}
-Math.Triangle.prototype.setSideC = function (sideC) {
-    this.c = sideC;
-}
-Math.Triangle.prototype.getPerimeter = function () {
-    return this.a + this.b + this.c;
-}
-Math.Triangle.prototype.setSize = function (sideA, sideB, sideC) {
-    this.a = sideA;
-    this.b = sideB;
-    this.c = sideC;
-}
-Math.Triangle.prototype.getHeightA = function () {
-    return Math.sin(this.getBeta()) * this.c;
-}
-Math.Triangle.prototype.getHeightB = function () {
-    return Math.sin(this.getGamma()) * this.a;
-}
-Math.Triangle.prototype.getHeightC = function () {
-    return Math.sin(this.getAlpha()) * this.b;
-}
-Math.Triangle.prototype.getHeights = function () {
-    return {
-        heightA: this.getHeightA(),
-        heightB: this.getHeightB(),
-        heightC: this.getHeightC()
+function gcf(x, y) {
+    var gcf = 1;
+    x = Math.abs(x);
+    y = Math.abs(y);
+    while (x % 2 == 0 && y % 2 == 0) {
+        x /= 2;
+        y /= 2;
+        gcf *= 2;
     }
-}
-Math.Triangle.prototype.getGamma = function () {
-    return Math.acos((this.c * this.c - this.b * this.b - this.a * this.a) / (-2 * this.a * this.b));
-}
-Math.Triangle.prototype.getBeta = function () {
-    return Math.acos((this.b * this.b - this.a * this.a - this.c * this.c) / (-2 * this.a * this.c));
-}
-Math.Triangle.prototype.getAlpha = function () {
-    return Math.acos((this.a * this.a - this.b * this.b - this.c * this.c) / (-2 * this.b * this.c));
-}
-Math.Triangle.prototype.getAngles = function () {
-    return {
-        alpha: this.getAlpha(),
-        beta: this.getBeta(),
-        gamma: this.getGamma()
+    while (x != 0) {
+        while (x % 2 == 0) x /= 2;
+        while (y % 2 == 0) y /= 2;
+        if (x < y) {
+            var c = x;
+            x = y;
+            y = c;
+        }
+        x -= y;
     }
-}
-Math.Triangle.prototype.getArea = function () {
-    return ((1 / 2) * this.c) * this.getHeightC();
-}
-Math.Triangle.prototype.isIsosceles = function () {
-    var gamma = this.getGamma();
-    var alpha = this.getAlpha();
-    var beta = this.getBeta();
-    return ((this.a == this.b && this.a != this.c && alpha == beta) || (this.b == this.c && this.b != this.a && beta == gamma) || (this.c == this.a && this.c != this.b && alpha == gamma));
-}
-Math.Triangle.prototype.isEquilateral = function () {
-    return (this.a == this.b && this.b == this.c && this.getAlpha() == this.getGamma() && this.getAlpha() == this.getBeta());
-}
-Math.Triangle.prototype.isRightAngled = function () {
-    return (this.getAlpha() == 90 || this.getBeta() == 90 || this.getGamma() == 90);
-}
-Math.Triangle.prototype.isTriangle = function () {
-    return !(this.a + this.b == this.c || this.b + this.c == this.a || this.c + this.a == this.b);
+    return y * gcf;
 }
