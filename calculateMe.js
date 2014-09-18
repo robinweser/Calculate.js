@@ -253,6 +253,29 @@ Math.getLength = function (value) {
 
 
 
+/*RELATIONS*/
+Math.compare = function (x, y) {
+    return (x == y ? 0 : (x > y ? 1 : -1));
+}
+Math.equal = function (x, y) {
+    return x == y;
+}
+Math.unequal = function (x, y) {
+    return x != y;
+}
+Math.larger = function (x, y) {
+    return x > y;
+}
+Math.largerEqual = function (x, y) {
+    return x >= y;
+}
+Math.smaller = function (x, y) {
+    return x < y;
+}
+Math.smallerEqual = function (x, y) {
+    return x <= y;
+}
+
 
 
 /* FRACTION */
