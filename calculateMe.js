@@ -1094,6 +1094,55 @@ Math.Term.prototype.isCorrectBrackets = function () {
 
 
 
+/*FUNCTION*/
+Math.Function = function (term, mode) {
+    this.term = term;
+    this.mode = (mode ? mode : "DEG");
+};
+Math.Function.prototype = new Math.Term();
+Math.Function.prototype.isCorrectAlphabet = function () {
+    return Math.isCorrectAlphabet(this.term.replace(/x/g, " "), this.alphabet);
+}
+//Calculates the term and returns the result
+Math.Function.prototype.calculate = function (x) {
+    return Math.calculate(this.term.replace(/x/g, x), this.mode);
+}
+Math.Function.prototype.getTableOfValues = function (startValue, endValue, steps) {
+    var tableOfValues = {};
+    var start, end;
+    if (startValue instanceof Math.Interval) {
+        start = startValue.startValue;
+        end = startValue.endValue;
+        if (!startValue.includingStart) start += 1;
+        if (!startValue.includingEnd) end -= 1;
+        steps = endValue;
+    } else {
+        start = startValue;
+        end = endValue;
+    }
+    for (var i = start; i <= end; i += (steps ? steps : 1)) {
+        tableOfValues[i] = this.calculate(i);
+    }
+    return tableOfValues;
+}
+Math.Function.prototype.getYIntercept = function () {
+    return this.calculate(0);
+}
+Math.Function.prototype.toString = function () {
+    this.correctTerm();
+    return "f(x)=" + this.term;
+}
+
+//*SHORTCUTS*//
+function interval(a, b, c, d) {
+    return new Math.Interval(a, b, c, d);
+}
+
+function term(a, b) {
+    return new Math.Term(a, b);
+}
+
+
 //*ADDITIONAL FUNCTIONS*//
 //Returns a term with only addition/substraction until a multiplication/division starts
 function addUntil(term) {
