@@ -74,7 +74,7 @@ var circle = new Math.Circle(5)
 circle.getArea()                            //=78.53981~
 circle.setRadius(10)                        //Math.Cirlce(10)
 circle.getArcLength(120)                    //=20.943951~
-circle.toBall()                             //Math.Ball(10)
+circle.toBall()                             //=Math.Ball(10)
 ```       
 
 --------------------------------------
