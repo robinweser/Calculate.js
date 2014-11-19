@@ -3,7 +3,7 @@
    calculate.js is kind of an extension to the JavaScript build-in Math-Library.
    Check https://bitbucket.org/rofrischmann/calculate.js for more information
 
-   Current Version: 0.0.1
+   Current Version: 1.0.0
                     September 15 2014
 
    Author(s): Robin Frischmann
@@ -17,13 +17,13 @@
 
 //* MATH-INFO & CREDITS*//
 Math.info = {
-    name: "calculateMe.js",
+    name: "calculate.js",
     version: "1.0.0",
     build: "18.09.2014",
     author: "Robin Frischmann",
     copyright: "Copyright " + String.fromCharCode(169) + " 2014 Robin Frischmann - MIT licenese",
-    repository: "https://bitbucket.org/Grindelwald/calculateme.js",
-    description: "calculateMe.js is a small but powerful set of extensions for the build-in JavaScript Math-Library.",
+    repository: "https://bitbucket.org/rofrischmann/calculate.js",
+    description: "calculate.js is a small but powerful set of extensions for the build-in JavaScript Math-Library.",
     license: "MIT license (http://opensource.org/licenses/mit-license.php)"
 
 }
