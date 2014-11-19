@@ -1,7 +1,7 @@
 /*===========================================================================
 
-   calculateMe.js is kind of an extension to the JavaScript build-in Math-Library.
-   Check https://bitbucket.org/Grindelwald/calculateme.js for more information
+   calculate.js is kind of an extension to the JavaScript build-in Math-Library.
+   Check https://bitbucket.org/rofrischmann/calculate.js for more information
 
    Current Version: 0.0.1
                     September 15 2014
