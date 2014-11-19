@@ -1,11 +1,11 @@
-# calculateMe.js #
+# calculate.js #
 ----------------------------------- 
 **Current Version**: 1.0.0 *(September 22 2014)*   
 **Author(s)**: Robin Frischmann   
 **License**: MIT License (http://opensource.org/licenses/mit-license.php)
 -----------------------------------
     
-**calculateMe.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
+**calculate.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
 
 ## Abilities ##
 * a **powerful term-parser** that supports all popular math functions like *sin, cos, tan, log, sqrt or pow*.
@@ -24,10 +24,10 @@
 # **How to use** #
 
 
-Just download **[calculateMe.js](https://bitbucket.org/unverschaemt/calculateme.js/downloads/calculateMe%5Bversion1.0.0-22.09.2014%5D.zip)** and import it within your project.    
+Just download **[calculate.js](https://bitbucket.org/unverschaemt/calculateme.js/downloads/calculateMe%5Bversion1.0.0-22.09.2014%5D.zip)** and import it within your project.    
 ```
 #!html
-<script type="text/javascript" src="calculateMe.js"></script>
+<script type="text/javascript" src="calculate.js"></script>
 
 ```    
     
