@@ -22,7 +22,7 @@ Math.info = {
     build: "18.09.2014",
     author: "Robin Frischmann",
     copyright: "Copyright " + String.fromCharCode(169) + " 2014 Robin Frischmann - MIT licenese",
-    repository: "https://bitbucket.org/rofrischmann/calculate.js",
+    repository: "https://github.com/rofrischmann/calculate.js.git",
     description: "calculate.js is a small but powerful set of extensions for the build-in JavaScript Math-Library.",
     license: "MIT license (http://opensource.org/licenses/mit-license.php)"
 
