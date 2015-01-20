@@ -1,17 +1,19 @@
 
-# calculate.js ##
+# Calculate.js ##
 
-**Current Version**: 1.0.0 *(September 22 2014)*   
-**Author(s)**: Robin Frischmann   
-**License**: MIT License (http://opensource.org/licenses/mit-license.php)
-    
-**calculate.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
+**Calculate.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
 
+## Usage ##
+Download the latest minified [release](https://github.com/rofrischmann/Calculate.js/releases/tag/v1.0) and import it within your project.    
+```html
+<script type="text/javascript" src="calculate.min.js"></script>
+
+```    
 ## Abilities ##
 * a **powerful term-parser** that supports all popular math functions like *sin, cos, tan, log, sqrt or pow*.
 * 33 additional Math-Class extensions
 * Geometric classes like **Circle, Ball, Rectangle, Triangle, Cuboid**
-* **Term** and** Function** classes to parse and calculate any mathmatical function
+* **Term** and **Function** classes to parse and calculate any mathmatical function
 * **Fraction, Interval** and **Relations** classes to handle those
 
 ## Coming Soon ##
@@ -20,55 +22,54 @@
 * Physical **Units**
 * More **Geometric** classes like **Pyramid**
 
-## How to use ##
-
-
-Just download **[calculate.js](https://bitbucket.org/unverschaemt/calculateme.js/downloads/calculateMe%5Bversion1.0.0-22.09.2014%5D.zip)** and import it within your project.    
-```html
-<script type="text/javascript" src="calculate.js"></script>
-
-```    
-    
-    
-Now you can use all given functions and classes within the **Math-Numerator**.     
 
 # **Examples**#
      
 ## Extensions ##
 ```javascript 
-Math.checksum(12345)                        //=15
-Math.isPrime(7)                             //=true
-Math.isPrime(6)                             //=false
-Math.nextPrime(7, 3, true)                  //=13
-Math.getGreatestCommonFactor(16, 72)        //=8
-Math.logarithm(22, 3)                       //=2.813588~
+Calculate.checksum(12345)                       //returns 15
+Calculate.isPrime(7)                            //returns true
+Calculate.isPrime(6)                            //returns false
+Calculate.nextPrime(7, 3, true)                 //returns 13
+Calculate.getGreatestCommonFactor(16, 72)       //returns 8
+Calculate.logarithm(22, 3)                      //returns 2.813588...
 ```  
 
 
 ## Parser ##
 ```javascript 
-Math.calculate("sin(23) + 3")               //=3,39073~
-Math.calculate("sin(23) + 3", "RAD")        //=2,15377~
-Math.calculate("2+3*sqrt(12-sin(45)) + 5")  //=17,08147~
+Parser.calculate("sin(23) + 3")                 //returns 3,39073...
+Parser.calculate("sin(23) + 3", "RAD")          //returns 2,15377...
+Parser.calculate("2+3*sqrt(12-sin(45)) + 5")    //returns 17,08147...
 ```  
+
+## Function ##
+```javascript 
+var fx = new Function("2*sin(x-3)+sqrt(2^3)")               
+fx.calculate(4.5)                               //calculates with x=4.5 and returns 2.88078...
+fx.getYIntercept()                              //returns y-axes intercept 2.72375...
+fx.getTableOfValues(new Interval(-10, 10), 1))  //returns all calculated values from -10 to 10 in steps of 1 (-10, -9, ..., 8, 9, 10)
+``` 
 
 ## Fraction ##
 ```javascript 
-var fraction = new Math.Fraction(14, 18)               
-fraction.add(2)                             //Math.Fraction(50, 18)
-fraction.cancel()                           //Math.Fraction(25, 9)
-fraction.calculate()                        //=1.38888~
+var fraction = new Fraction(14, 18)               
+fraction.add(2)                                 //adds 36/18 to the fraction
+fraction.cancel()                               //cancels to 25/9
+fraction.calculate()                            //returns 1.38888...
 ```  
 
 ## Circle ##
 ```javascript 
-var circle = new Math.Circle(5)               
-circle.getArea()                            //=78.53981~
-circle.setRadius(10)                        //Math.Cirlce(10)
-circle.getArcLength(120)                    //=20.943951~
-circle.toBall()                             //=Math.Ball(10)
+var circle = new Circle(5)               
+circle.getArea()                                //returns 78.53981...
+circle.setRadius(10)                            //sets the radius to 10
+circle.getArcLength(120)                        //returns 20.943951...
+circle.toBall()                                 //returns a Ball with radius=10
 ```       
+## License
+Extend.js is licensed under the MIT license. (http://opensource.org/licenses/MIT)
 
-## Information ##
-A lot of more **features** e.g. more Math-extensions and even a bunch of geometric forms are coming soon!   
-Feel free to contact me ([robin@rofrischmann.de](mailto:robin@rofrischmann.de)) if you want to receive updates.
+## Contributing
+If you've got something useful just create a pull request or let me know and I'll add it.   
+Created by [Robin Frischmann](http://rofrischmann.de).
