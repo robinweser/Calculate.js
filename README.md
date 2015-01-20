@@ -1,7 +1,7 @@
 
 # Calculate.js ##
 
-**Calculate.js** is kind of an **extension** to the JavaScript build-in **Math-Library**.   
+**Calculate.js** is kind of an **extension** to the javascript build-in **Math-Library**.   
 
 ## Usage ##
 Download the latest minified [release](https://github.com/rofrischmann/Calculate.js/releases/tag/v1.0) and import it within your project.    
@@ -68,7 +68,7 @@ circle.getArcLength(120)                        //returns 20.943951...
 circle.toBall()                                 //returns a Ball with radius=10
 ```       
 ## License
-Extend.js is licensed under the MIT license. (http://opensource.org/licenses/MIT)
+Calculate.js is licensed under the MIT license. (http://opensource.org/licenses/MIT)
 
 ## Contributing
 If you've got something useful just create a pull request or let me know and I'll add it.   
