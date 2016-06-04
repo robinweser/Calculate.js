@@ -12,7 +12,7 @@ Download the latest minified [release](https://github.com/rofrischmann/Calculate
 ## Abilities ##
 * a **powerful term-parser** that supports all popular math functions like *sin, cos, tan, log, sqrt or pow*.
 * 33 additional Math-Class extensions
-* Geometric classes like **Circle, Ball, Rectangle, Triangle, Cuboid**
+* Geometric classes like **Circle, Ball, Cylinder, Rectangle, Triangle, Cuboid**
 * **Term** and **Function** classes to parse and calculate any mathmatical function
 * **Fraction, Interval** and **Relations** classes to handle those
 
